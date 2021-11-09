@@ -3,29 +3,56 @@ from dataclasses import dataclass, field
 from random import randrange
 from actions import Actions
 from history import History
+from locality import Locality
+from match_stadistics import MatchStadistics
 from player import Player
+from player_stadistics import PlayerStadistics
 from referee import Referee
 from team import Team
+from team_stadistics import TeamStadistics
 from utils import randomZeroOne
+from utils import teamToPlayers
 
 from time import sleep
 
 
-@dataclass
+@dataclass(init=False)
 class Match:
     """Match attrs"""
     local: Team
     visitor: Team
     referee: Referee
+
     ball_player_position: Player = None
     ball_team_position: Team = None
+
     history: list[History] = field(default_factory=list)
+    stadistics: MatchStadistics = None
+
     time_length: int = 45
     is_stopped: bool = False
 
+    def __init__(self, local: Team, visitor: Team, referee: Referee) -> None:
+        self.local = local
+        self.visitor = visitor
+        self.referee = referee
+        self.history = []
+
+        localStadistics = TeamStadistics(players=dict.fromkeys(
+            [pla.tshirt_number for pla in teamToPlayers(local)], PlayerStadistics()))
+
+        visitorStadistics = TeamStadistics(players=dict.fromkeys(
+            [pla.tshirt_number for pla in teamToPlayers(visitor)], PlayerStadistics()))
+
+        self.stadistics = MatchStadistics(
+            local=localStadistics, visitor=visitorStadistics)
+
+    def begin(self):
+        self.drawKickoff()
+
     def drawKickoff(self):
         print("Sorteando saque inicial")
-        ball_team_position = randomZeroOne() == 0 and self.local or self.visitor
+        ball_team_position = randomZeroOne() == Locality.LOCAL and self.local or self.visitor
         self.history.append(History(action=Actions.KICK_OFF,
                             time=0, team=ball_team_position))
 
@@ -40,9 +67,9 @@ class Match:
         print("Arranca el %d tiempo" % (which))
         count = 0
         aditional = 0
-        while (count <= 45 + aditional):
+        while (count <= self.time_length + aditional):
             print("Minuto %d" % (count))
-            if count == 44:
+            if count == (self.time_length - 1):
                 aditional = randrange(0, which == 1 and 2 or 5)
             count = count + 1
             sleep(0.5)
