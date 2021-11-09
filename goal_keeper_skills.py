@@ -2,7 +2,6 @@
 GoalKeeperSkills for pitch players
 """
 from dataclasses import dataclass
-
 from common_skills import CommonSkills
 
 
@@ -13,6 +12,6 @@ class GoalKeeperSkills(CommonSkills):
     shot_stopping: int
     rushing_out: int
     stamina: int
-    shooting: int
+    # shooting: int
     physical: int
     passing: int

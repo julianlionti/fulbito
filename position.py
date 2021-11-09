@@ -4,6 +4,7 @@ from enum import Enum
 
 class Position(Enum):
     """Position enum"""
+    GOAL_KEEPER = 0
     BACK_DEFENDER = 1
     DEFENDER = 2
     BACK_MIDFIELDER = 3
