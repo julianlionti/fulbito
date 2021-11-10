@@ -46,15 +46,3 @@ class Team:
         if where_to == Position.ATTACKER:
             self.attackers.append(player)
 
-    # def pass_ball(self, from_player: Player, to: Player) -> Player:
-    #     lucky = randrange(1, 100) / 100
-    #     mentality = self.dt.mentality
-
-    #     if from_player in self.attackers:
-    #         if mentality == Mentality.OFENSIVE
-
-    #     return to
-
-    def do_action(self):
-        print("asda")
-        sleep(1)

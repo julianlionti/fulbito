@@ -1,8 +1,6 @@
-from dataclasses import dataclass
 from enum import Enum
 
 
-@dataclass
 class Actions(Enum):
     KICK_OFF = 0
     PASS = 1

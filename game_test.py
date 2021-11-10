@@ -53,12 +53,15 @@ def createReferree() -> Referee:
     return Referee(attrs=common.createRandom(), experience=randrange(50, 70))
 
 
+def createDt() -> DT:
+    common = CommonAttrs()
+    return DT(attrs=common.createRandom(), mentality=randrange(1, 2) == 1 and Mentality.DEFENSIVE or Mentality.OFENSIVE)
+
+
 def test_configuring_match():
 
-    team1 = Team(name="Racing Club", dt=DT(
-        attrs=CommonAttrs(), mentality=Mentality.OFENSIVE))
-    team2 = Team(name="All boys", dt=DT(
-        attrs=CommonAttrs(), mentality=Mentality.OFENSIVE))
+    team1 = Team(name="Racing Club", dt=createDt())
+    team2 = Team(name="All boys", dt=createDt())
 
     for x in range(1):
         team1.add_position(createRandomGoalKeeper(), Position.GOAL_KEEPER)
