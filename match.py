@@ -1,6 +1,7 @@
 """Match class"""
 from dataclasses import dataclass, field
 from random import randrange
+from typing import Union
 from actions import Actions
 from history import History
 from locality import Locality
@@ -52,11 +53,12 @@ class Match:
 
     def drawKickoff(self):
         print("Sorteando saque inicial")
-        ball_team_position = randomZeroOne() == Locality.LOCAL and self.local or self.visitor
+        self.ball_team_position = randomZeroOne(
+        ) == Locality.LOCAL and self.local or self.visitor
         self.history.append(History(action=Actions.KICK_OFF,
-                            time=0, team=ball_team_position))
+                            time=0, team=self.ball_team_position))
 
-        print("Saca",  ball_team_position.name)
+        print("Saca",  self.ball_team_position.name)
         self.startMatch()
 
     def startMatch(self):
@@ -72,6 +74,10 @@ class Match:
             if count == (self.time_length - 1):
                 aditional = randrange(0, which == 1 and 2 or 5)
             count = count + 1
+            action = self.something_happen()
+            while(action != None):
+                self.ball_team_position.do_action()
+
             sleep(0.5)
 
         if which == 1:
@@ -88,3 +94,14 @@ class Match:
     def end(self):
         print("Terminó")
         print("Ganó %s" % (self.local.name))
+
+    def something_happen(self) -> Union[Actions, None]:
+        last_action = self.history[-1]
+
+        if last_action.action == Actions.KICK_OFF:
+            next_action = Actions.PASS
+        else:
+            next_action = None
+
+        print(next_action)
+        return next_action

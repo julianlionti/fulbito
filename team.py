@@ -1,5 +1,7 @@
 """Team class"""
 from dataclasses import dataclass, field
+from random import randrange
+from time import sleep
 from dt import DT
 
 from position import Position
@@ -10,6 +12,7 @@ from player import Player
 class Team:
     """Team attrs"""
     name: str
+    dt: DT
 
     goal_keeper: Player = None
     back_defenders: list[Player] = field(default_factory=list)
@@ -21,9 +24,7 @@ class Team:
 
     substitutes: list[Player] = field(default_factory=list)
 
-    dt: DT = None
-
-    def add_position(self, player, where_to: Position):
+    def add_position(self, player: Player, where_to: Position):
         if where_to == Position.GOAL_KEEPER:
             self.goal_keeper = player
 
@@ -44,3 +45,16 @@ class Team:
 
         if where_to == Position.ATTACKER:
             self.attackers.append(player)
+
+    # def pass_ball(self, from_player: Player, to: Player) -> Player:
+    #     lucky = randrange(1, 100) / 100
+    #     mentality = self.dt.mentality
+
+    #     if from_player in self.attackers:
+    #         if mentality == Mentality.OFENSIVE
+
+    #     return to
+
+    def do_action(self):
+        print("asda")
+        sleep(1)

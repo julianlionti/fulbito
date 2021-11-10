@@ -1,7 +1,9 @@
 """Game test"""
 from os import name
+from dt import DT
 from goal_keeper_skills import GoalKeeperSkills
 from match import Match
+from mentality import Mentality
 from player import Player
 from referee import Referee
 from side import Side
@@ -53,8 +55,10 @@ def createReferree() -> Referee:
 
 def test_configuring_match():
 
-    team1 = Team(name="Racing Club")
-    team2 = Team(name="All boys")
+    team1 = Team(name="Racing Club", dt=DT(
+        attrs=CommonAttrs(), mentality=Mentality.OFENSIVE))
+    team2 = Team(name="All boys", dt=DT(
+        attrs=CommonAttrs(), mentality=Mentality.OFENSIVE))
 
     for x in range(1):
         team1.add_position(createRandomGoalKeeper(), Position.GOAL_KEEPER)
